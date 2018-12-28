@@ -1,6 +1,6 @@
 @file:JvmName("Config")
 
-package com.landev.fxgl
+package com.landev.fxgl.firstgame
 
 data class Config(
     var windowHeight: Int = 0,

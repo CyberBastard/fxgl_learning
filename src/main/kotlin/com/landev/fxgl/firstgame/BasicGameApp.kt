@@ -1,6 +1,5 @@
-package com.landev.fxgl
+package com.landev.fxgl.firstgame
 
-import com.almasb.fxgl.app.FXGL
 import com.almasb.fxgl.app.GameApplication
 import com.almasb.fxgl.entity.Entities
 import com.almasb.fxgl.entity.Entity
@@ -11,12 +10,16 @@ import com.almasb.fxgl.physics.PhysicsComponent
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef
 import com.almasb.fxgl.settings.GameSettings
-import com.landev.fxgl.Constants.DROP_SOUND
-import com.landev.fxgl.Constants.PIXELS_MOVED_CONSTANT
-import com.landev.fxgl.Constants.PLAYER_TEXTURE
-import com.landev.fxgl.components.CoinComponent
-import com.landev.fxgl.components.DudeComponent
-import com.landev.fxgl.components.MovingPhysicalComponent
+import com.landev.fxgl.firstgame.Constants.COIN_RADIUS
+import com.landev.fxgl.firstgame.Constants.DROP_SOUND
+import com.landev.fxgl.firstgame.Constants.HEIGHT
+import com.landev.fxgl.firstgame.Constants.PIXELS_MOVED_CONSTANT
+import com.landev.fxgl.firstgame.Constants.PLAYER_TEXTURE
+import com.landev.fxgl.firstgame.Constants.STEP
+import com.landev.fxgl.firstgame.Constants.WIDTH
+import com.landev.fxgl.firstgame.components.CoinComponent
+import com.landev.fxgl.firstgame.components.DudeComponent
+import com.landev.fxgl.firstgame.components.MovingPhysicalComponent
 import javafx.application.Application
 import javafx.scene.input.KeyCode
 import javafx.scene.shape.Circle
@@ -29,19 +32,16 @@ class BasicGameApp : GameApplication() {
 
     override fun initSettings(settings: GameSettings) {
         with(settings) {
-            configClass = Config::class.java
-            width = getConfig().windowWidth
-            height = getConfig().windowHeight
+            width = WIDTH
+            height = HEIGHT
         }
     }
-
-    fun getConfig() = FXGL.getGameConfig<Config>()
 
     override fun initGame() {
         val playersPhysics = getPhysicsComponent()
         player = Entities.builder()
             .type(EntityType.PLAYER)
-            .at(getConfig().windowHeight / 2.0, getConfig().windowWidth / 2.0)
+            .at(HEIGHT / 2.0, WIDTH / 2.0)
             .viewFromNodeWithBBox(Rectangle(32.0, 42.0))
             .with(
                 CollidableComponent(true),
@@ -53,7 +53,7 @@ class BasicGameApp : GameApplication() {
         Entities.builder()
             .type(EntityType.COIN)
             .at(500.0, 200.0)
-            .viewFromNodeWithBBox(Circle(getConfig().coinRadius))
+            .viewFromNodeWithBBox(Circle(COIN_RADIUS))
             .with(CollidableComponent(true))
             .with(CoinComponent())
             .buildAndAttach(gameWorld)
@@ -77,20 +77,20 @@ class BasicGameApp : GameApplication() {
             addAction(getUserAction("Move Left") {
                 player.getComponent(MovingPhysicalComponent::class.java).moveLeft()
                 player.getComponent(DudeComponent::class.java).moveLeft()
-                gameState.increment(PIXELS_MOVED_CONSTANT, getConfig().playerStep)
+                gameState.increment(PIXELS_MOVED_CONSTANT, STEP)
             }, KeyCode.A)
             addAction(getUserAction("Move Right") {
                 player.getComponent(MovingPhysicalComponent::class.java).moveRight()
                 player.getComponent(DudeComponent::class.java).moveRight()
-                gameState.increment(PIXELS_MOVED_CONSTANT, getConfig().playerStep)
+                gameState.increment(PIXELS_MOVED_CONSTANT, STEP)
             }, KeyCode.D)
             addAction(getUserAction("Move Up") {
                 player.getComponent(MovingPhysicalComponent::class.java).moveUp()
-                gameState.increment(PIXELS_MOVED_CONSTANT, getConfig().playerStep)
+                gameState.increment(PIXELS_MOVED_CONSTANT, STEP)
             }, KeyCode.W)
             addAction(getUserAction("Move Down") {
                 player.getComponent(MovingPhysicalComponent::class.java).moveDown()
-                gameState.increment(PIXELS_MOVED_CONSTANT, getConfig().playerStep)
+                gameState.increment(PIXELS_MOVED_CONSTANT, STEP)
             }, KeyCode.S)
             addAction(getUserAction("Play Sound") {
                 audioPlayer.playSound(DROP_SOUND)
@@ -137,7 +137,10 @@ class BasicGameApp : GameApplication() {
     }
 
     override fun initPhysics() {
-        physicsWorld.addCollisionHandler(object : CollisionHandler(EntityType.PLAYER, EntityType.COIN) {
+        physicsWorld.addCollisionHandler(object : CollisionHandler(
+            EntityType.PLAYER,
+            EntityType.COIN
+        ) {
             override fun onCollisionBegin(player: Entity, coin: Entity) {
                 coin.removeFromWorld()
             }

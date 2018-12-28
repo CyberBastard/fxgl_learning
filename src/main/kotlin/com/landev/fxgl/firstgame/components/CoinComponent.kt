@@ -1,11 +1,11 @@
 @file:JvmName("CoinControl")
 
-package com.landev.fxgl.components
+package com.landev.fxgl.firstgame.components
 
 import com.almasb.fxgl.entity.component.Component
 import com.almasb.fxgl.texture.AnimatedTexture
 import com.almasb.fxgl.texture.AnimationChannel
-import com.landev.fxgl.Constants.COIN_TEXTURE
+import com.landev.fxgl.firstgame.Constants.COIN_TEXTURE
 import javafx.util.Duration
 
 class CoinComponent : Component() {

@@ -1,6 +1,6 @@
 @file:JvmName("BackgroundFactory")
 
-package com.landev.fxgl.factories
+package com.landev.fxgl.firstgame.factories
 
 import com.almasb.fxgl.entity.Entities
 import com.almasb.fxgl.entity.EntityFactory

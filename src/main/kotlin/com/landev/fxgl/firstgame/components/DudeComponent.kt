@@ -1,12 +1,12 @@
 @file:JvmName("DudeControl")
 
-package com.landev.fxgl.components
+package com.landev.fxgl.firstgame.components
 
 import com.almasb.fxgl.core.math.FXGLMath
 import com.almasb.fxgl.entity.component.Component
 import com.almasb.fxgl.texture.AnimatedTexture
 import com.almasb.fxgl.texture.AnimationChannel
-import com.landev.fxgl.Constants.PLAYER_TEXTURE
+import com.landev.fxgl.firstgame.Constants.PLAYER_TEXTURE
 import javafx.util.Duration
 
 class DudeComponent : Component() {
